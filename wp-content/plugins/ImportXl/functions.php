@@ -36,6 +36,7 @@ function wpm_custom_post_type() {
 		'labels'              => $labels,
 		'supports'            => array('title', 'editor', 'thumbnail', 'comments', 'revisions', 'custom-fields'),
 		'taxonomies'          => array('Mentormarketing_type'),
+		'rest_controller_class" => "WP_REST_Posts_Controller',
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
@@ -49,8 +50,11 @@ function wpm_custom_post_type() {
 		'exclude_from_search' => false,
 		'publicly_queryable'  => true,
 		'query_var'           => 'Mentormarketing',
-		'rewrite'             => $rewrite,
+		'rewrite'             => ['slug' => 'mentormarketing_prod', 'with_front' => true],
 		'capability_type'     => 'page',
+		'supports' => ['title', 'editor', 'thumbnail'],
+        'taxonomies' => ['category', 'post_tag'],
+        'show_in_graphql' => false,
 	);
 	register_post_type('property', $args);	
 }
