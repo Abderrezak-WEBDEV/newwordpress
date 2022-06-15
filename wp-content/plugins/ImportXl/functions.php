@@ -1,73 +1,249 @@
 <?php
 
 /*
-* On utilise une fonction pour créer notre custom post type 'Séries TV'
+* On utilise une fonction pour créer notre custom post type
 */
 
-function wpm_custom_post_type() {
-
-	// On rentre les différentes dénominations de notre custom post type qui seront affichées dans l'administration
-	$labels = array(
-		'name'                => _x('Mentormarketing_products', 'Post Type General Name', 'twentytwenty'),
-		'singular_name'       => _x('Mentormarketing', 'Post Type Singular Name', 'twentytwenty'),
-		'menu_name'           => __('Mentormarketing_product', 'twentytwenty'),
-		'name_admin_bar'      => __('Mentormarketing_Product', 'twentytwenty'),
-		'parent_item_colon'   => __('Parent Item:', 'twentytwenty'),
-		'all_items'           => __('All Products', 'twentytwenty'),
-		'add_new_item'        => __('Add New Product', 'twentytwenty'),
-		'add_new'             => __('Add New product', 'twentytwenty'),
-		'new_item'            => __('New Item', 'twentytwenty' ),
-		'edit_item'           => __('Edit Item', 'twentytwenty'),
-		'update_item'         => __('Update Item', 'twentytwenty'),
-		'view_item'           => __('View Item', 'twentytwenty'),
-		'search_items'        => __('Search Item', 'twentytwenty'),
-		'not_found'           => __('Not found', 'twentytwenty'),
-		'not_found_in_trash'  => __('Not found in Trash', 'twentytwenty'),
-	);
+function register_my_cpts()
+{
+    /**
+     * label du CPT: mentormarketing_prod.
+     */
+    $labels = [
+        "name" => __("mentormarketing_products", "twentytwenty"),
+        "singular_name" => __("mentormarketing_products", "twentytwenty"),
+        "menu_name" => __("My Mentormarketing_products", "twentytwenty"),
+        "all_items" => __("All Products", "twentytwenty"),
+        "add_new" => __("Ajouter un nouveau", "twentytwenty"),
+        "add_new_item" => __("Add new Products ", "twentytwenty"),
+        "edit_item" => __("Modifier", "twentytwenty"),
+        "new_item" => __("Nouveau ", "twentytwenty"),
+        "view_item" => __("Voir ", "twentytwenty"),
+        "view_items" => __("Voir ", "twentytwenty"),
+        "search_items" => __("Recherche ", "twentytwenty"),
+        "not_found" => __("Aucun mentormarketing_producct trouvé", "twentytwenty"),
+        "not_found_in_trash" => __("Aucun mentormarketing_products trouvé dans la corbeille", "twentytwenty"),
+        "parent" => __("mentormarketing_products parent :", "twentytwenty"),
+        "set_featured_image" => __("defined image", "twentytwenty"),
+        "remove_featured_image" => __("remove img", "twentytwenty"),
+        "use_featured_image" => __("Use img", "twentytwenty"),
+        "archives" => __("Archives ", "twentytwenty"),
+        "insert_into_item" => __("Insert to", "twentytwenty"),
+        "uploaded_to_this_item" => __("Uploads ", "twentytwenty"),
+        "filter_items_list" => __("Filter products", "twentytwenty"),
+       
+    ];
 	$rewrite = array(
-		'slug'                => _x('Mentormarketing', 'Mentormarketing', 'twentytwenty'),
+		'slug'                => _x('Mentormarketing_products', 'Mentormarketing_products', 'twentytwenty'),
 		'with_front'          => true,
 		'pages'               => true,
 		'feeds'               => false,
-	);
-	$args = array(
-		'label'               => __('Mentormarketing', 'twentytwenty'),
-		'description'         => __('Mentormarketing', 'twentytwenty'),
-		'labels'              => $labels,
-		'supports'            => array('title', 'editor', 'thumbnail', 'comments', 'revisions', 'custom-fields'),
-		'rest_controller_class" => "WP_REST_Posts_Controller',
-		'hierarchical'        => false,
-		'public'              => true,
-		'show_ui'             => true,
-		'show_in_menu'        => true,
-		'menu_position'       => 5,
-		'menu_icon'           => 'dashicons-admin-home',
-		'show_in_admin_bar'   => true,
-		'show_in_nav_menus'   => true,
-		'can_export'          => true,
-		'has_archive'         => false,
-		'exclude_from_search' => false,
-		'publicly_queryable'  => true,
-		'query_var'           => 'Mentormarketing',
-		'rewrite'             =>  $rewrite,
-		'capability_type'     => 'page',
-		'supports' => ['title', 'editor', 'thumbnail'],
-        'taxonomies' => ['category', 'post_tag'],
-        'show_in_graphql' => false,
-	);
-	register_post_type('Mentormarketing', $args);	
+			);
+	
+    $args = [
+        "label" => __("Mentormarketing_products", "twentytwenty"),
+        "labels" => $labels,
+        "description" => "",
+        "public" => true,
+        "publicly_queryable" => true,
+        "show_ui" => true,
+        "show_in_rest" => true,
+        "rest_base" => "",
+        "rest_controller_class" => "WP_REST_Posts_Controller",
+        "rest_namespace" => "wp/v2",
+        "has_archive" => false,
+        "show_in_menu" => true,
+        "show_in_nav_menus" => true,
+        "delete_with_user" => false,
+        "exclude_from_search" => false,
+        "capability_type" => "post",
+        "map_meta_cap" => true,
+        "hierarchical" => false,
+        "can_export" => false,
+        "rewrite" => $rewrite,
+        "query_var" => true,
+        "supports" => ["title", "editor", "thumbnail"],
+        "taxonomies" => ["category", "post_tag"],
+        "show_in_graphql" => false,
+    ];
+
+    register_post_type("mentormarketing_prod", $args);
 }
-add_action( 'init', 'wpm_custom_post_type', 10 );
-/**
- * afficher le CPT dans la page d'acceuil
- */
-function wpc_cpt_in_home($query) {
-	if (! is_admin() && $query->is_main_query()) {
-	  if ($query->is_home) {
-		$query->set('post_type', array('post', 'Mentormarketing'));
-	  }
-	}
-  }
-  
-  add_action('pre_get_posts','wpc_cpt_in_home');
-?>
+
+add_action('init', 'register_my_cpts');
+
+function register_my_taxes()
+{
+    
+    /**
+     * Taxonomy: Brands.
+     */
+
+    $labels = [
+        "name" => __("Brands", "mentormarketing_prod"),
+        "singular_name" => __("Brand", "mentormarketing_prod"),
+        "menu_name" => __("Brands", "mentormarketing_prod"),
+        "all_items" => __("All Brands", "mentormarketing_prod"),
+        "edit_item" => __("Modifier Brand", "mentormarketing_prod"),
+        "view_item" => __("Voir Brand", "mentormarketing_prod"),
+        "update_item" => __("Mettre à jour le nom de Brand", "mentormarketing_prod"),
+        "add_new_item" => __("Ajouter un nouveau Brand", "mentormarketing_prod"),
+        "new_item_name" => __("Nom du nouveau Brand", "mentormarketing_prod"),
+        "parent_item" => __("Parent dBrand", "mentormarketing_prod"),
+        "parent_item_colon" => __("Brand parent :", "mentormarketing_prod"),
+        "search_items" => __("Recherche de Brands", "mentormarketing_prod"),
+        "popular_items" => __("Brands populaires", "mentormarketing_prod"),
+        "separate_items_with_commas" => __("Séparer les Brands avec des virgules", "mentormarketing_prod"),
+        "add_or_remove_items" => __("Ajouter ou supprimer des Brands", "mentormarketing_prod"),
+        "choose_from_most_used" => __("Choisir parmi les Brands les plus utilisés", "mentormarketing_prod"),
+        "not_found" => __("Aucun Brands trouvé", "mentormarketing_prod"),
+        "no_terms" => __("Aucun Brands", "mentormarketing_prod"),
+        "items_list_navigation" => __("Navigation de liste de Brands", "mentormarketing_prod"),
+        "items_list" => __("Liste de Brands", "mentormarketing_prod"),
+        "back_to_items" => __("Retourner à Brands", "mentormarketing_prod"),
+        "name_field_description" => __("Le nom tel qu’il apparaîtra sur votre site.", "mentormarketing_prod"),
+        "parent_field_description" => __("Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "mentormarketing_prod"),
+        "slug_field_description" => __("The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "mentormarketing_prod"),
+         
+       'show_in_rest' => true,
+        "desc_field_description" => __("The description is not prominent by default; however, some themes may show it.", "mentormarketing_prod"),
+    ];
+
+    $args = [
+        "label" => __("Brands", "mentormarketing_prod"),
+        "labels" => $labels,
+        "public" => true,
+        "publicly_queryable" => true,
+        "hierarchical" => false,
+        "show_ui" => true,
+        "show_in_menu" => true,
+        "show_in_nav_menus" => true,
+        "query_var" => true,
+        "rewrite" => ['slug' => 'brand', 'with_front' => true,],
+        "show_admin_column" => false,
+        "show_in_rest" => true,
+        "show_tagcloud" => false,
+        "rest_base" => "brand",
+        "rest_controller_class" => "WP_REST_Terms_Controller",
+        "rest_namespace" => "wp/v2",
+        "show_in_quick_edit" => false,
+        "sort" => false,
+        "show_in_graphql" => false,
+    ];
+    register_taxonomy("brand", ["mentormarketing_prod"], $args);
+
+    /**
+     * Taxonomy: Statuts.
+     */
+
+    $labels = [
+        "name" => __("Statuts", "twentytwenty"),
+        "singular_name" => __("statut", "twentytwenty"),
+        "menu_name" => __("Statuts", "twentytwenty"),
+        "all_items" => __("Tous les Statuts", "twentytwenty"),
+        "edit_item" => __("Modifier statut", "twentytwenty"),
+        "view_item" => __("Voir statut", "twentytwenty"),
+        "update_item" => __("Mettre à jour le nom de statut", "twentytwenty"),
+        "add_new_item" => __("Ajouter un nouveau statut", "twentytwenty"),
+        "new_item_name" => __("Nom du nouveau statut", "twentytwenty"),
+        "parent_item" => __("Parent dstatut", "twentytwenty"),
+        "parent_item_colon" => __("statut parent :", "twentytwenty"),
+        "search_items" => __("Recherche de Statuts", "twentytwenty"),
+        "popular_items" => __("Statuts populaires", "twentytwenty"),
+        "separate_items_with_commas" => __("Séparer les Statuts avec des virgules", "twentytwenty"),
+        "add_or_remove_items" => __("Ajouter ou supprimer des Statuts", "twentytwenty"),
+        "choose_from_most_used" => __("Choisir parmi les Statuts les plus utilisés", "twentytwenty"),
+        "not_found" => __("Aucun Statuts trouvé", "twentytwenty"),
+        "no_terms" => __("Aucun Statuts", "twentytwenty"),
+        "items_list_navigation" => __("Navigation de liste de Statuts", "twentytwenty"),
+        "items_list" => __("Liste de Statuts", "twentytwenty"),
+        "back_to_items" => __("Retourner à Statuts", "twentytwenty"),
+        "name_field_description" => __("Le nom tel qu’il apparaîtra sur votre site.", "twentytwenty"),
+        "parent_field_description" => __("Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "twentytwenty"),
+        "slug_field_description" => __("The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "twentytwenty"),
+        "desc_field_description" => __("The description is not prominent by default; however, some themes may show it.", "twentytwenty"),
+    ];
+
+
+    $args = [
+        "label" => __("Statuts", "mentormarketing_products"),
+        "labels" => $labels,
+        "public" => true,
+        "publicly_queryable" => true,
+        "hierarchical" => false,
+        "show_ui" => true,
+        "show_in_menu" => true,
+        "show_in_nav_menus" => true,
+        "query_var" => true,
+        "rewrite" => ['slug' => 'statuts', 'with_front' => true,],
+        "show_admin_column" => false,
+        "show_in_rest" => true,
+        "show_tagcloud" => false,
+        "rest_base" => "statuts",
+        "rest_controller_class" => "WP_REST_Terms_Controller",
+        "rest_namespace" => "wp/v2",
+        "show_in_quick_edit" => false,
+        "sort" => false,
+        "show_in_graphql" => false,
+    ];
+    register_taxonomy("statuts", ["mentormarketing_prod"], $args);
+
+    /**
+     * Taxonomy: Names.
+     */
+
+    $labels = [
+        "name" => __("Names", "twentytwenty"),
+        "singular_name" => __("name", "twentytwenty"),
+        "menu_name" => __("Names", "twentytwenty"),
+        "all_items" => __("Tous les Names", "twentytwenty"),
+        "edit_item" => __("Modifier name", "twentytwenty"),
+        "view_item" => __("Voir name", "twentytwenty"),
+        "update_item" => __("Mettre à jour le nom de name", "twentytwenty"),
+        "add_new_item" => __("Ajouter un nouveau name", "twentytwenty"),
+        "new_item_name" => __("Nom du nouveau name", "twentytwenty"),
+        "parent_item" => __("Parent dname", "twentytwenty"),
+        "parent_item_colon" => __("name parent :", "twentytwenty"),
+        "search_items" => __("Recherche de Names", "twentytwenty"),
+        "popular_items" => __("Names populaires", "twentytwenty"),
+        "separate_items_with_commas" => __("Séparer les Names avec des virgules", "twentytwenty"),
+        "add_or_remove_items" => __("Ajouter ou supp","twentytwenty"),
+        "choose_from_most_used" => __("Choisir parmi les Names les plus utilisés","twentytwenty"),
+        "not_found" => __("Aucun Names trouvé", "twentytwenty"),
+        "no_terms" => __("Aucun Names", "twentytwenty"),
+        "items_list_navigation" => __("Navigation de","twentytwenty"),
+        "items_list" => __("Liste de Names", "twentytwenty"),
+        "back_to_items" => __("Retourner à Names", "twentytwenty"),
+        "name_field_description" => __("Le nom tel qu’il apparaîtra sur votre site.", "twentytwenty"),
+        "parent_field_description" => __("Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.", "twentytwenty"),
+        "slug_field_description" => __("The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", "twentytwenty"),
+        "desc_field_description" => __("The description is not prominent by default; however, some themes may show it.", "twentytwenty"),
+    ];
+
+    $args = [
+        "label" => __("Names", "mentormarketing_products"),
+        "labels" => $labels,
+        "public" => true,
+        "publicly_queryable" => true,
+        "hierarchical" => false,
+        "show_ui" => true,
+        "show_in_menu" => true,
+        "show_in_nav_menus" => true,
+        "query_var" => true,
+        "rewrite" => ['slug' => 'names', 'with_front' => true,],
+        "show_admin_column" => false,
+        "show_in_rest" => true,
+        "show_tagcloud" => false,
+        "rest_base" => "names",
+        "rest_controller_class" => "WP_REST_Terms_Controller",
+        "rest_namespace" => "wp/v2",
+        "show_in_quick_edit" => false,
+        "sort" => false,
+        "show_in_graphql" => false,
+    ];
+    register_taxonomy("names", ["mentormarketing_prod"], $args);
+
+    
+}
+add_action('init', 'register_my_taxes');
+
