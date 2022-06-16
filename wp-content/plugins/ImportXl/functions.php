@@ -21,7 +21,7 @@ function register_my_cpts()
         "view_item" => __("Voir ", "twentytwenty"),
         "view_items" => __("Voir ", "twentytwenty"),
         "search_items" => __("Recherche ", "twentytwenty"),
-        "not_found" => __("Aucun mentormarketing_producct trouvé", "twentytwenty"),
+        "not_found" => __("Aucun mentormarketing_product trouvé", "twentytwenty"),
         "not_found_in_trash" => __("Aucun mentormarketing_products trouvé dans la corbeille", "twentytwenty"),
         "parent" => __("mentormarketing_products parent :", "twentytwenty"),
         "set_featured_image" => __("defined image", "twentytwenty"),
@@ -184,7 +184,7 @@ function register_my_taxes()
         "rest_namespace" => "wp/v2",
         "show_in_quick_edit" => false,
         "sort" => false,
-        "show_in_graphql" => false,
+       
     ];
     register_taxonomy("statuts", ["mentormarketing_prod"], $args);
 
