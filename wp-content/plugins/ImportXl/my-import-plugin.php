@@ -70,11 +70,14 @@ class MyImportClass
     { 
         echo '<h1>' . __( 'My Import Plugin', 'my-import-plugin' ) . '</h1>'; 
         echo '<p>' . __( 'Welcome to My Import Plugin', 'my-import-plugin' ) . '</p>'; 
-        echo '
+        echo
+         '
+         <div id="class_form">
         <form action="" method="post" enctype="multipart/form-data">
         <input type="file" name="fileToUpload" id="fileToUpload">
         <input type="submit" value="Upload" name="submittheform">
         </form>
+        </div>
         ';
         
         /**
