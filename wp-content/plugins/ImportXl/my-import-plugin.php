@@ -1,7 +1,11 @@
  <?php 
   include 'functions.php';
+  
  ?>
+
 <?php  
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 /**
  * Plugin Name: AKEL PLUGIN IMPORT
  * Plugin URI: https://www.undefined.fr  
@@ -28,7 +32,22 @@ register_activation_hook(__FILE__, function () {
     // Je suis désactivé
  });
  
+ add_filter('acf/settings/load_json', 'my_acf_json_load_point');
 
+ function my_acf_json_load_point( $paths ) {
+     
+     // remove original path (optional)
+     unset($paths[0]);
+     
+     
+     // append path
+     $paths[] = get_stylesheet_directory() . '/my-custom-folder';
+     
+     
+     // return
+     return $paths;
+     
+ }
 /**
  * creation de plugin sur le Dashbord du wordpress
  */
@@ -67,34 +86,25 @@ class MyImportClass
         global $wp_filesystem;
             WP_Filesystem();
             $name_file = $_FILES['fileToUpload']['name'];
-            $content_directory = $wp_filesystem->wp_content_dir() . '/';
-            $target_dir_location = $content_directory . 'import_files/';
-            $extention_autorisees = array (".xlsx", ".XLSX" ,".pdf");
-            // $file_extention = strrchr($name_file,'.');
-          
-            if( in_array( $name_file, $extention_autorisees ) ) {
-                //   if(move_uploaded_file($file_tmp_name,$file_dest)) {
-                echo "Fichier téléchargé avec succès";
-                } else {
-                echo "Une erreur est survenue lors de l'envoi du fichier";
-                }
-                } else {
-                    echo "Seul les fichiers xlsx sont autorisés";
-                }           
+            $content_directory = $wp_filesystem->wp_content_dir() .'uploadss';
+            $target_dir_location = $content_directory . '/';
+           
              if(isset($_POST["submittheform"]) && isset($_FILES['fileToUpload'])) {
             
                  $name_file = $_FILES['fileToUpload']['name'];
                  $tmp_name = $_FILES['fileToUpload']['tmp_name'];
-            
-                if( move_uploaded_file( $tmp_name, $target_dir_location. $name_file ) ) {
+                 
+                echo "fichier télécharguer avec succès";
+                
+                if ( move_uploaded_file($tmp_name, $target_dir_location. $name_file) ) {
                    
                 } else {
-                    echo "The file was not uploaded";
-                }    
+                    echo "téléchargement refusé";
+                } 
+               
             }
         }
-        
     }
+}
 
 new MyImportClass();
-
