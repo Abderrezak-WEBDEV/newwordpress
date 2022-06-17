@@ -1,11 +1,10 @@
  <?php 
   include 'functions.php';
-  
+  use PhpOffice\PhpSpreadsheet\IOFactory;
+  use PhpOffice\PhpSpreadsheet\Spreadsheet;
  ?>
 
 <?php  
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 /**
  * Plugin Name: AKEL PLUGIN IMPORT
  * Plugin URI: https://www.undefined.fr  
@@ -86,20 +85,21 @@ class MyImportClass
         global $wp_filesystem;
             WP_Filesystem();
             $name_file = $_FILES['fileToUpload']['name'];
-            $content_directory = $wp_filesystem->wp_content_dir() .'uploadss';
+            $content_directory = $wp_filesystem->wp_content_dir() .'uploads';
             $target_dir_location = $content_directory . '/';
-           
+          
+                   
              if(isset($_POST["submittheform"]) && isset($_FILES['fileToUpload'])) {
             
                  $name_file = $_FILES['fileToUpload']['name'];
                  $tmp_name = $_FILES['fileToUpload']['tmp_name'];
-                 
+             
                 echo "fichier télécharguer avec succès";
                 
-                if ( move_uploaded_file($tmp_name, $target_dir_location. $name_file) ) {
+                if ( move_uploaded_file( $tmp_name, $target_dir_location. $name_file ) ) {
                    
                 } else {
-                    echo "téléchargement refusé";
+                    echo "echec de téléchargement";
                 } 
                
             }
